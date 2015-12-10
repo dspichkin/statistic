@@ -1,0 +1,169 @@
+<div >
+    <div style="height:51px;">
+        <div acme-navbar></div>
+    </div>
+
+    <div class="container">
+        <div class="datetimepicker" style="
+            background-color: #f8f8f8;
+            border-color: #e7e7e7;
+            height:51px;
+            margin:20px 0;">
+        
+          <div id="reportrange" date-range-picker ng-model="main.datePicker.date" options="main.datePicker.options" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 227px;margin: 10px 10px;display: inline-block;float:left;">
+              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+              <span></span> <b class="caret"></b>
+              <span>{{main.startDate | date:'dd.MM.yyyy'}} - {{main.endDate | date:'dd.MM.yyyy'}}</span>
+          </div>
+
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('past_month')" ng-class="{
+              'menu-active': menu_status == 'past_month'
+          }">{{main.past_month}}</div>
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('current_month')" ng-class="{
+              'menu-active': menu_status == 'current_month'
+          }">{{main.current_month}}</div>
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('week')" ng-class="{
+              'menu-active': menu_status == 'week'
+          }">неделя</div>
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="getCampaignsByStatus('yesterday')" ng-class="{
+              'menu-active': menu_status == 'yesterday'
+          }">вчера</div>
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-class="{
+              'menu-active': menu_status == 'today'
+          }" ng-click="main.getCampaignsByStatus('today')">сегодня</div>
+        </div>
+
+      <div>
+        <table class="table table-bordered table-hover table-condensed statistic-table">
+            <thead>
+                <tr style="height: 59px;">
+                    <th style="width: 526px;padding: 0;vertical-align: top;">
+                        <div class="table-head-menu table-head-menu-select" style="padding: 10px 5px 5px 5px;" ng-class="{
+                            'table-head-menu-active': menu_status == 'lasted'
+                        }" ng-click="main.getStatLasted()"><span ng-class="{
+                            'table-head-menu-unactive':  menu_status != 'lasted'
+                            }">ПОСЛЕДНИЕ</span> {{ main.number_lasted }}</div>
+                        <div class="table-head-menu table-head-menu-select" ng-class="{
+                            'table-head-menu-active': menu_status == 'active'
+                        }"><span  ng-class="{
+                            'table-head-menu-unactive':  menu_status != 'active'
+                            }" ng-click="main.getStatByStatus('active')">АКТИВНЫЕ</span> {{ main.number_active }}</div>
+                        <div class="table-head-menu table-head-menu-select" ng-class="{
+                            'table-head-menu-active': menu_status == 'blocked'
+                        }"><span ng-class="{
+                            'table-head-menu-unactive':  menu_status != 'blocked'
+                            }" ng-click="main.getStatByStatus('blocked')">ОСТАНОВЛЕННЫЕ</span> {{ main.number_blocked }}</div>
+                        <div class="table-head-menu table-head-menu-select" ng-class="{
+                            'table-head-menu-active': menu_status == 'all'
+                        }"><span ng-class="{
+                            'table-head-menu-unactive':  menu_status != 'all'
+                            }" ng-click="main.getStatAll()">ВСЕ</span> {{ main.number_campaigns }}</div>
+                        <div class="table-head-menu table-head-menu-select" ng-class="{
+                            'table-head-menu-active': menu_status == 'deleted'
+                        }"><span ng-class="{
+                            'table-head-menu-unactive':  menu_status != 'deleted'
+                            }" ng-click="main.getStatByStatus('deleted')">УДАЛЕННЫЕ</span> {{ main.number_deleted }}</div>
+                    </th>
+                    <th>
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('shows')"><span>ПОКАЗЫ</span> ?</div>
+                        <div ng-if="main.getSortNumber('shows')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': getSortNumberOrder('shows') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': getSortNumberOrder('shows') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('shows')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('shows')" style="cursor:pointer;"></span>
+                            
+                        </div>
+                    </th>
+                    <th style="background-color: #d9edf7;">
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('clicks')"><span>КЛИКИ</span> ?</div>
+
+                        <div ng-if="main.getSortNumber('clicks')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': main.getSortNumberOrder('clicks') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': main.getSortNumberOrder('clicks') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('clicks')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('clicks')" style="cursor:pointer;"></span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('conversions')"><span>CTR %</span> ?</div>
+                        <div ng-if="main.getSortNumber('conversions')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': main.getSortNumberOrder('conversions') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': main.getSortNumberOrder('conversions') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('conversions')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('conversions')" style="cursor:pointer;"></span>
+                        </div>
+                    </th>
+                    <th style="background-color: #f2dede;">
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('costs')"><span>СПИСАНИЯ, USD</span> ?</div>
+                        <div ng-if="main.getSortNumber('costs')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': main.getSortNumberOrder('costs') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': main.getSortNumberOrder('costs') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('costs')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('costs')" style="cursor:pointer;"></span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('revenue')"><span>КОНВЕРСИЯ</span> ?</div>
+                        <div ng-if="main.getSortNumber('revenue')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': main.getSortNumberOrder('revenue') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': main.getSortNumberOrder('revenue') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('revenue')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('revenue')" style="cursor:pointer;"></span>
+                        </div>
+                    </th>
+                    <th style="background-color:#dff0d8;">
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('income')" ><span>ДОХОД, USD</span> ?</div>
+                        <div ng-if="main.getSortNumber('income')" style="text-align: center;">
+                            <span class="glyphicon" ng-class="{
+                                'glyphicon-sort-by-alphabet': main.getSortNumberOrder('income') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': main.getSortNumberOrder('income') == 'desc'
+                            }" aria-hidden="true" style="font-size: 11px;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('income')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('income')" style="cursor:pointer;"></span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr> 
+                    <td>
+                        <input class="statistic-checkbox" type="checkbox" />
+                        <span>Суммарная статистика ({{main.startDate | date:'dd.MM.yyyy'}} - {{main.endDate | date:'dd.MM.yyyy'}})
+                        </span>
+                    </td>
+                    <td>{{ main.sumStatistic.shows | numberWithCommas }}</td>
+                    <td style="background-color: #d9edf7;">{{ sumStatistic.clicks | numberWithCommas }}</td>
+                    <td>{{ main.sumStatistic.conversions | numberWithCommas }}</td>
+                    <td style="background-color: #f2dede;">{{ sumStatistic.costs | numberWithCommas }}</td>
+                    <td>{{ main.sumStatistic.revenue | numberWithCommas }}</td>
+                    <td style="background-color:#dff0d8;">{{ main.sumStatistic.income | numberWithCommas }}</td>
+                </tr>
+                <tr ng-repeat="stat in main.statistic track by $index"> 
+                    <td>
+                        <input class="statistic-checkbox" type="checkbox" />
+                        <span class="text-blue">{{ stat.object.name | limitTo: 60}} {{stat.object.name.length >= 60 ? '...' : ''}}</span>
+                    </td>
+                    <td>{{ stat.total.shows | numberWithCommas  }}</td>
+                    <td style="background-color: #d9edf7;">{{ stat.total.clicks | numberWithCommas  }}</td>
+                    <td>{{ stat.total.conversions | numberWithCommas  }}</td>
+                    <td style="background-color: #f2dede;">{{ stat.total.costs | numberWithCommas  }}</td>
+                    <td>{{ stat.total.revenue | numberWithCommas  }}</td>
+                    <td style="background-color:#dff0d8;">{{ stat.total.income | numberWithCommas  }}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      
+    </div>
+
+</div>

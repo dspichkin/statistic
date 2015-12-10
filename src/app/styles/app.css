@@ -1,0 +1,38 @@
+.statistic-table thead tr th {
+  height: 52px;
+  vertical-align: top;
+}
+.statistic-table thead > tr > td,
+.statistic-table thead > tr > th {
+  border-bottom-width: 0;
+}
+.statistic-table .table-head-menu {
+  font-weight: normal;
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px;
+}
+.statistic-table .table-head-menu span {
+  font-weight: 600;
+}
+.statistic-table .table-head-menu-select {
+  cursor: pointer;
+}
+.statistic-table .table-head-menu-sort {
+  cursor: pointer;
+}
+.statistic-table .table-head-menu-active {
+  background-color: #DDDDDD;
+}
+.statistic-table .table-head-menu-unactive {
+  border-bottom: 1px dashed black;
+}
+.statistic-table .text-blue {
+  color: #337AB7;
+}
+.statistic-table .statistic-checkbox {
+  margin-right: 5px;
+}
+.menu-active {
+  background-color: #DDDDDD;
+}
