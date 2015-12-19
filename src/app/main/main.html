@@ -17,20 +17,20 @@
           </div>
 
           <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('past_month')" ng-class="{
-              'menu-active': menu_status == 'past_month'
+              'menu-active': main.menu_status == 'past_month'
           }">{{main.past_month}}</div>
           <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('current_month')" ng-class="{
-              'menu-active': menu_status == 'current_month'
+              'menu-active': main.menu_status == 'current_month'
           }">{{main.current_month}}</div>
           <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('week')" ng-class="{
-              'menu-active': menu_status == 'week'
+              'menu-active': main.menu_status == 'week'
           }">неделя</div>
-          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="getCampaignsByStatus('yesterday')" ng-class="{
-              'menu-active': menu_status == 'yesterday'
+          <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-click="main.getCampaignsByStatus('yesterday')" ng-class="{
+              'menu-active': main.menu_status == 'yesterday'
           }">вчера</div>
           <div style="margin: 14px 10px;display: inline-block;float: left;font-size: 15px;border-bottom: 1px dashed black;cursor: pointer;" ng-class="{
-              'menu-active': menu_status == 'today'
-          }" ng-click="main.getCampaignsByStatus('today')">сегодня</div>
+              'menu-active': main.menu_status == 'today'
+          }" ng-click="main.getCampaignsByStatus('today')">сегодня {{}}</div>
         </div>
 
       <div>

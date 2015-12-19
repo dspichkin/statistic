@@ -136,10 +136,10 @@
 
             if (data.length > 0) {
                 // готовим даты для отображения
-                vm.datePicker.date.startDate = moment(data[0].datetime, "DD.MM.YYYY").toDate();
-                vm.startDate = moment(data[0].datetime, "DD.MM.YYYY").toDate();
-                vm.datePicker.date.endDate = moment(data[data.length - 1].datetime, "DD.MM.YYYY").toDate();
-                vm.endDate = moment(data[data.length - 1].datetime, "DD.MM.YYYY").toDate();
+                vm.datePicker.date.startDate = moment(data[0].last_updated, "DD.MM.YYYY").toDate();
+                vm.startDate = moment(data[0].last_updated, "DD.MM.YYYY").toDate();
+                vm.datePicker.date.endDate = moment(data[data.length - 1].last_updated, "DD.MM.YYYY").toDate();
+                vm.endDate = moment(data[data.length - 1].last_updated, "DD.MM.YYYY").toDate();
                 // считаем количество компаний по разным статусам;
                 vm.number_blocked = 0;
                 vm.number_active = 0;
@@ -225,7 +225,7 @@
             if (status == 'today') {
                 vm.menu_status = 'today';
                 for (var i = 0; i < vm.campaigns.length; i++) {
-                    if (vm.campaigns[i].datetime == moment().format('DD.MM.YYYY')) {
+                    if (vm.campaigns[i].last_updated == moment().format('DD.MM.YYYY')) {
                         _campaigns.push(vm.campaigns[i]);
                     }
                 }
@@ -234,7 +234,7 @@
             if (status == 'yesterday') {
                 vm.menu_status = 'yesterday';
                 for (var i1 = 0; i1 < vm.campaigns.length; i1++) {
-                    if (vm.campaigns[i1].datetime == moment().subtract(1, 'days').hours(0).minutes(0).seconds(0).millisecond(0).format('DD.MM.YYYY')) {
+                    if (vm.campaigns[i1].last_updated == moment().subtract(1, 'days').hours(0).minutes(0).seconds(0).millisecond(0).format('DD.MM.YYYY')) {
                         _campaigns.push(vm.campaigns[i1]);
                     }
                 }
@@ -245,7 +245,7 @@
                 var from = moment().day("Monday").hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 var to = moment().day("Monday").add(6, 'days').hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 for (var i2 = 0; i2 < vm.campaigns.length; i2++) {
-                    var _d = moment(vm.campaigns[i2].datetime, 'DD.MM.YYYY').toDate();
+                    var _d = moment(vm.campaigns[i2].last_updated, 'DD.MM.YYYY').toDate();
                     if (_d >= from && _d <= to) {
                         _campaigns.push(vm.campaigns[i2]);
                     }
@@ -257,7 +257,7 @@
                 var from1 = moment().date(1).hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 var to1 = moment().endOf("month").hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 for (var i3 = 0; i3 < vm.campaigns.length; i3++) {
-                    var _d1 = moment(vm.campaigns[i3].datetime, 'DD.MM.YYYY').hours(0).minutes(0).seconds(0).toDate();
+                    var _d1 = moment(vm.campaigns[i3].last_updated, 'DD.MM.YYYY').hours(0).minutes(0).seconds(0).toDate();
                     if (_d1 >= from1 && _d1 <= to1) {
                         _campaigns.push(vm.campaigns[i3]);
                     }
@@ -269,7 +269,7 @@
                 var from2 = moment().subtract(1, 'month').date(1).hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 var to2 = moment().endOf("month").hours(0).minutes(0).seconds(0).millisecond(0).toDate();
                 for (var i4 = 0; i4 < vm.campaigns.length; i4++) {
-                    var _d2 = moment(vm.campaigns[i4].datetime, 'DD.MM.YYYY').toDate();
+                    var _d2 = moment(vm.campaigns[i4].last_updated, 'DD.MM.YYYY').toDate();
                     if (_d2 >= from2 && _d2 <= to2) {
                         _campaigns.push(vm.campaigns[i4]);
                     }
@@ -283,6 +283,7 @@
                 get_statistic(vm.campaigns);
             });
         });
+
     };
 
 
@@ -555,8 +556,8 @@
         var _compaigns = [];
 
         for (var i = 0; i < vm.campaigns.length; i++) {
-            if (moment(vm.campaigns[i].datetime, "DD.MM.YYYY").toDate() >= vm.startDate &&
-                moment(vm.campaigns[i].datetime, "DD.MM.YYYY").toDate() <= vm.endDate) {
+            if (moment(vm.campaigns[i].last_updated, "DD.MM.YYYY").toDate() >= vm.startDate &&
+                moment(vm.campaigns[i].last_updated, "DD.MM.YYYY").toDate() <= vm.endDate) {
 
                 _compaigns.push(vm.campaigns[i]);
             }
