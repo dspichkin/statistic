@@ -492,12 +492,11 @@
 
         if (campaigns.length > 0) {
             for (var j = 0; j < campaigns.length; j++) {
-                campaigns[j].datetime = moment(campaigns[j].last_updated)
+                campaigns[j].datetime = moment(campaigns[j].last_updated);
             }
             campaigns = _.sortBy(campaigns, function(item) {
                 return item.datetime;
             });
-            console.log('campaigns', campaigns)
             var data_param = {
                 ids: _ids,
                 startDate: moment(campaigns[0].last_updated).format("YYYY-MM-DD"),
