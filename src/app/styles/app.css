@@ -1,3 +1,16 @@
+a:focus,
+button:focus,
+div:focus,
+span:focus,
+.btn:focus,
+input:focus,
+select:focus,
+textarea:focus,
+i:focus,
+md-grid-tile-footer:focus {
+  outline: 0 none !important;
+  border-color: none;
+}
 .statistic-table thead tr th {
   height: 52px;
   vertical-align: top;

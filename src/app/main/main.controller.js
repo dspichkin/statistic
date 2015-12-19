@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, webDevTec, toastr, $location, $log, _, moment, $data ) {
+  function MainController($rootScope, $scope, $timeout, webDevTec, toastr, $location, $log, _, moment, $data ) {
     var vm = this;
     var monthNames = [
         "Январь",
@@ -168,9 +168,12 @@
 
     
     vm.getStatLasted = function() {
+        /*
+        получение статистики по последним компаниям
+        */
         reset();
-        get_campaigns(function(data) {
-            vm.campaigns = data;
+        //get_campaigns(function(data) {
+        //    vm.campaigns = data;
             var count = vm.campaigns.length;
             // если количество последних компаний меньше чем количество всех компаний
             // запрашиваем послений иначе запрашиваем все
@@ -181,28 +184,34 @@
                     _last_compaigns.push(vm.campaigns[vm.campaigns.length - i]);
                 }
                 get_statistic(_last_compaigns, function() {
-                     vm.menu_status = 'lasted';
+                    vm.menu_status = 'lasted';
                 });
             } else {
                 vm.getStatAll(function() {
                      vm.menu_status = 'all';
                 });
             }
-        });
+        //});
     };
 
+    /*
+    получений компаний по статусу
+    */
     vm.getStatByStatus = function(status) {
         reset();
         var _data = [];
-        get_campaigns(function(data) {
+
+        get_campaigns_bystatus(status, function(data) {
             vm.campaigns = data;
+            /*
             for (var i = 0; i < vm.campaigns.length; i++) {
                 if (vm.campaigns[i].status == status) {
                     _data.push(vm.campaigns[i]);
                 }
             }
+            */
             // запрашиваем статистику по запрошенным компаниям
-            get_statistic(_data, function() {
+            get_statistic(data, function() {
                 vm.menu_status = status;
             });
         });
@@ -442,37 +451,62 @@
     function get_campaigns(callback) {
         reset();
 
-        $data.get_campaigns(function(data) {
+        $data.get_campaigns(null, function(data) {
             vm.campaigns = data;
             vm.number_campaigns = vm.campaigns.length;
 
             callback(data);
         });
     }
+    function get_campaigns_bystatus(status, callback) {
+        reset();
+        var params = {
+            status: status
+        };
+        $data.get_campaigns(params, function(data) {
+            vm.campaigns = data;
+            //vm.number_campaigns = vm.campaigns.length;
+
+            callback(data);
+        });
+    }
 
 
+    function get_stat_data(id, data) {
+        for (var i = 0,len = data.length; i < len; i++) {
+            if (data[i].id == id) {
 
-    function get_statistic(data, callback) {
+                return  data[i];
+            }
+        }
+    }
+    function get_statistic(campaigns, callback) {
         // формируем запрос по расширенной статистики
         // data - компании
         var _ids = [];
-        for (var i = 0; i < data.length; i++) {
-            _ids.push(data[i].id);
+        for (var i = 0; i < campaigns.length; i++) {
+            _ids.push(campaigns[i].id);
         }
-        if (data.length > 0) {
+        //console.log('data', data)
+        if (campaigns.length > 0) {
             var data_param = {
                 ids: _ids,
-                startDate: data[0].datetime,
-                endDate: data[data.length - 1].datetime
+                startDate: moment(campaigns[0].last_updated).format("YYYY-MM-DD"),
+                endDate: moment(campaigns[campaigns.length - 1].last_updated).format("YYYY-MM-DD")
             };
             $data.get_stats(data_param, function(_data) {
-                vm.statistic = _data;
-                calculateSumStatistic();
+                for (var i = 0, len = campaigns.length; i < len; i++) {
+                    campaigns[i].total = get_stat_data(campaigns[i].id, _data);
+                }
+
+                vm.statistic = campaigns;
                 if (callback) {
                     callback();
                 }
+                calculateSumStatistic();
                 
             });
+
         } else {
             vm.statistic = [];
             calculateSumStatistic();
@@ -483,21 +517,38 @@
     function calculateSumStatistic() {
         // Считаем суммарной статистику
         vm.sumStatistic = {
-            shows: 0,
-            clicks: 0,
-            conversions: 0,
-            costs: 0,
-            revenue: 0,
-            income: 0
+            total: {
+                impressions: 0,
+                clicks: 0,
+                conversions: 0,
+                costs: 0,
+                revenue: 0,
+                income: 0
+            }
         };
+
         for (var i = 0; i < vm.statistic.length; i++) {
-            vm.sumStatistic.shows += parseFloat(vm.statistic[i].total.shows);
-            vm.sumStatistic.clicks += parseFloat(vm.statistic[i].total.clicks);
-            vm.sumStatistic.conversions += parseFloat(vm.statistic[i].total.conversions);
-            vm.sumStatistic.costs += parseFloat(vm.statistic[i].total.costs);
-            vm.sumStatistic.revenue += parseFloat(vm.statistic[i].total.revenue);
-            vm.sumStatistic.income += parseFloat(vm.statistic[i].total.income);
+            if (vm.statistic[i].total && vm.statistic[i].total.clicks) {
+                vm.sumStatistic.total.clicks += parseFloat(vm.statistic[i].total.clicks);
+            }
+            if (vm.statistic[i].total && vm.statistic[i].total.impressions) {
+                vm.sumStatistic.total.impressions += parseFloat(vm.statistic[i].total.impressions);
+            }
+            if (vm.statistic[i].total && vm.statistic[i].total.conversions) {
+                vm.sumStatistic.total.conversions += parseFloat(vm.statistic[i].total.conversions);
+            }
+            if (vm.statistic[i].total && vm.statistic[i].total.costs) {
+                vm.sumStatistic.total.costs += parseFloat(vm.statistic[i].total.costs);
+            }
+            if (vm.statistic[i].total && vm.statistic[i].total.revenue) {
+                vm.sumStatistic.total.revenue += parseFloat(vm.statistic[i].total.revenue);
+            }
+            if (vm.statistic[i].total && vm.statistic[i].total.income) {
+                vm.sumStatistic.total.income += parseFloat(vm.statistic[i].total.income);
+            }
+            
         }
+        
     }
 
     function getDateRangeStatistic() {

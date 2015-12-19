@@ -18,7 +18,7 @@
     "moment": "~2.10.6",
     "animate.css": "~3.4.0",
     "angular": "~1.4.2",
-    "angular-daterangepicker": "~0.2.2",
+    "angular-daterangepicker": "~0.2",
     "lodash": "~3.10",
     "ngstorage": ""
   },

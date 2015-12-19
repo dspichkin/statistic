@@ -39,29 +39,29 @@
                 <tr style="height: 59px;">
                     <th style="width: 526px;padding: 0;vertical-align: top;">
                         <div class="table-head-menu table-head-menu-select" style="padding: 10px 5px 5px 5px;" ng-class="{
-                            'table-head-menu-active': menu_status == 'lasted'
+                            'table-head-menu-active': main.menu_status == 'lasted'
                         }" ng-click="main.getStatLasted()"><span ng-class="{
-                            'table-head-menu-unactive':  menu_status != 'lasted'
+                            'table-head-menu-unactive':  main.menu_status != 'lasted'
                             }">ПОСЛЕДНИЕ</span> {{ main.number_lasted }}</div>
                         <div class="table-head-menu table-head-menu-select" ng-class="{
-                            'table-head-menu-active': menu_status == 'active'
+                            'table-head-menu-active': main.menu_status == 'active'
                         }"><span  ng-class="{
-                            'table-head-menu-unactive':  menu_status != 'active'
+                            'table-head-menu-unactive':  main.menu_status != 'active'
                             }" ng-click="main.getStatByStatus('active')">АКТИВНЫЕ</span> {{ main.number_active }}</div>
                         <div class="table-head-menu table-head-menu-select" ng-class="{
-                            'table-head-menu-active': menu_status == 'blocked'
+                            'table-head-menu-active': main.menu_status == 'blocked'
                         }"><span ng-class="{
-                            'table-head-menu-unactive':  menu_status != 'blocked'
+                            'table-head-menu-unactive':  main.menu_status != 'blocked'
                             }" ng-click="main.getStatByStatus('blocked')">ОСТАНОВЛЕННЫЕ</span> {{ main.number_blocked }}</div>
                         <div class="table-head-menu table-head-menu-select" ng-class="{
-                            'table-head-menu-active': menu_status == 'all'
+                            'table-head-menu-active': main.menu_status == 'all'
                         }"><span ng-class="{
-                            'table-head-menu-unactive':  menu_status != 'all'
+                            'table-head-menu-unactive':  main.menu_status != 'all'
                             }" ng-click="main.getStatAll()">ВСЕ</span> {{ main.number_campaigns }}</div>
                         <div class="table-head-menu table-head-menu-select" ng-class="{
-                            'table-head-menu-active': menu_status == 'deleted'
+                            'table-head-menu-active': main.menu_status == 'deleted'
                         }"><span ng-class="{
-                            'table-head-menu-unactive':  menu_status != 'deleted'
+                            'table-head-menu-unactive':  main.menu_status != 'deleted'
                             }" ng-click="main.getStatByStatus('deleted')">УДАЛЕННЫЕ</span> {{ main.number_deleted }}</div>
                     </th>
                     <th>
@@ -141,19 +141,19 @@
                         <span>Суммарная статистика ({{main.startDate | date:'dd.MM.yyyy'}} - {{main.endDate | date:'dd.MM.yyyy'}})
                         </span>
                     </td>
-                    <td>{{ main.sumStatistic.shows | numberWithCommas }}</td>
-                    <td style="background-color: #d9edf7;">{{ sumStatistic.clicks | numberWithCommas }}</td>
-                    <td>{{ main.sumStatistic.conversions | numberWithCommas }}</td>
-                    <td style="background-color: #f2dede;">{{ sumStatistic.costs | numberWithCommas }}</td>
-                    <td>{{ main.sumStatistic.revenue | numberWithCommas }}</td>
-                    <td style="background-color:#dff0d8;">{{ main.sumStatistic.income | numberWithCommas }}</td>
+                    <td>{{ main.sumStatistic.total.impressions | numberWithCommas }}</td>
+                    <td style="background-color: #d9edf7;">{{ main.sumStatistic.total.clicks | numberWithCommas}}</td>
+                    <td>{{ main.sumStatistic.total.conversions | numberWithCommas }}</td>
+                    <td style="background-color: #f2dede;">{{ main.sumStatistic.total.costs | numberWithCommas }}</td>
+                    <td>{{ main.sumStatistic.total.revenue | numberWithCommas }}</td>
+                    <td style="background-color:#dff0d8;">{{ main.sumStatistic.total.income | numberWithCommas }}</td>
                 </tr>
                 <tr ng-repeat="stat in main.statistic track by $index"> 
                     <td>
                         <input class="statistic-checkbox" type="checkbox" />
-                        <span class="text-blue">{{ stat.object.name | limitTo: 60}} {{stat.object.name.length >= 60 ? '...' : ''}}</span>
+                        <span class="text-blue"> {{ stat.name | limitTo: 60}} {{stat.name.length >= 60 ? '...' : ''}} <span style="float:right;">{{stat.id}}</span></span>
                     </td>
-                    <td>{{ stat.total.shows | numberWithCommas  }}</td>
+                    <td>{{ stat.total.impressions | numberWithCommas  }}</td>
                     <td style="background-color: #d9edf7;">{{ stat.total.clicks | numberWithCommas  }}</td>
                     <td>{{ stat.total.conversions | numberWithCommas  }}</td>
                     <td style="background-color: #f2dede;">{{ stat.total.costs | numberWithCommas  }}</td>
