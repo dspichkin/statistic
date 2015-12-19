@@ -65,14 +65,14 @@
                             }" ng-click="main.getStatByStatus('deleted')">УДАЛЕННЫЕ</span> {{ main.number_deleted }}</div>
                     </th>
                     <th>
-                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('shows')"><span>ПОКАЗЫ</span> ?</div>
-                        <div ng-if="main.getSortNumber('shows')" style="text-align: center;">
+                        <div class="table-head-menu table-head-menu-sort" ng-click="main.sortStatistic('impressions')"><span>ПОКАЗЫ</span> ?</div>
+                        <div ng-if="main.getSortNumber('impressions')" style="text-align: center;">
                             <span class="glyphicon" ng-class="{
-                                'glyphicon-sort-by-alphabet': getSortNumberOrder('shows') == 'asc',
-                                'glyphicon-sort-by-alphabet-alt': getSortNumberOrder('shows') == 'desc'
+                                'glyphicon-sort-by-alphabet': getSortNumberOrder('impressions') == 'asc',
+                                'glyphicon-sort-by-alphabet-alt': getSortNumberOrder('impressions') == 'desc'
                             }" aria-hidden="true" style="font-size: 11px;"></span>
-                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('shows')}}</span>
-                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('shows')" style="cursor:pointer;"></span>
+                            <span style="color: green;margin: 0 10px;">{{main.getSortNumber('impressions')}}</span>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="main.deleteSort('impressions')" style="cursor:pointer;"></span>
                             
                         </div>
                     </th>

@@ -100,7 +100,7 @@
 
     // для подсчета суммарной статистики
     vm.sumStatistic = {
-        shows: 0,
+        impressions: 0,
         clicks: 0,
         conversions: 0,
         costs: 0,
@@ -291,12 +291,12 @@
         /*
         сортировка статистики
         */
-        if (field == 'shows') {
-            var index_shows = _.findIndex(vm.sort_fields, {'field': 'total.shows'});
+        if (field == 'impressions') {
+            var index_shows = _.findIndex(vm.sort_fields, {'field': 'total.impressions'});
             if (index_shows > -1) {
                 vm.sort_fields[index_shows].order = !vm.sort_fields[index_shows].order;
             } else {
-                vm.sort_fields.push({'field': 'total.shows', 'order': true});
+                vm.sort_fields.push({'field': 'total.impressions', 'order': true});
             }
         }
         if (field == 'clicks') {
@@ -363,8 +363,8 @@
         отображение номера последовательности сортировки
         */
         var index_income;
-        if (type == 'shows') {
-            index_income = _.findIndex(vm.sort_fields, {'field': 'total.shows'});
+        if (type == 'impressions') {
+            index_income = _.findIndex(vm.sort_fields, {'field': 'total.impressions'});
         }
         if (type == 'clicks') {
             index_income = _.findIndex(vm.sort_fields, {'field': 'total.clicks'});
@@ -392,8 +392,8 @@
         отображение порядка сортировки
         */
         var order, index_income;
-        if (type == 'shows') {
-            index_income = _.findIndex(vm.sort_fields, {'field': 'total.shows'});
+        if (type == 'impressions') {
+            index_income = _.findIndex(vm.sort_fields, {'field': 'total.impressions'});
         }
         if (type == 'clicks') {
             index_income = _.findIndex(vm.sort_fields, {'field': 'total.clicks'});
@@ -425,8 +425,8 @@
         удаляем тип сортировки
         */
         var index_income;
-        if (type == 'shows') {
-            index_income = _.findIndex(vm.sort_fields, {'field': 'total.shows'});
+        if (type == 'impressions') {
+            index_income = _.findIndex(vm.sort_fields, {'field': 'total.impressions'});
         }
         if (type == 'clicks') {
             index_income = _.findIndex(vm.sort_fields, {'field': 'total.clicks'});
@@ -488,8 +488,16 @@
         for (var i = 0; i < campaigns.length; i++) {
             _ids.push(campaigns[i].id);
         }
-        //console.log('data', data)
+        
+
         if (campaigns.length > 0) {
+            for (var j = 0; j < campaigns.length; j++) {
+                campaigns[j].datetime = moment(campaigns[j].last_updated)
+            }
+            campaigns = _.sortBy(campaigns, function(item) {
+                return item.datetime;
+            });
+            console.log('campaigns', campaigns)
             var data_param = {
                 ids: _ids,
                 startDate: moment(campaigns[0].last_updated).format("YYYY-MM-DD"),
