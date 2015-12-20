@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app')
+    .module('statistic')
     .controller('MainController', MainController);
 
   /** @ngInject */
@@ -199,7 +199,6 @@
     */
     vm.getStatByStatus = function(status) {
         reset();
-        var _data = [];
 
         get_campaigns_bystatus(status, function(data) {
             vm.campaigns = data;

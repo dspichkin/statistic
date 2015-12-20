@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app')
+    .module('statistic')
     .config(config);
 
   /** @ngInject */

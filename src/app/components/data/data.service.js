@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app')
+    .module('statistic')
     .factory('$data', data);
   
   function data($http, $log, config) {     
@@ -15,58 +15,13 @@
             url = config.url_campaigns + '?' + url_parms;
         }
 
-        $http.get(url).success(function(data, status) {
+        $http.get(url).success(function(data) {
             //console.log(data)
             callback(data);
-            }).error(function(data, status) {
+            }).error(function(data) {
            $log.error("Ошиба получения campaigns", data);
            alert("Ошиба получения списка компаний");
         });
-        /* getting campaigns
-        url: /api/campaigns
-            [{
-            'id': ..    
-            'name': ...
-            'status': ...,  # active, deleted, blocked
-            'datetime': ...,  # когда создан
-            }]
-        */
-        /*
-        var _data = [
-            {
-                'id': 5501,        
-                'name': 'deleted Интресы - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'deleted',  
-                'datetime': '01.01.2014'
-            }, {
-                'id': 5601,        
-                'name': 'blocked Интресы - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'blocked',  
-                'datetime': '01.10.2014'
-            },  {
-                'id': 5696,        
-                'name': 'Интресы - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'active',  
-                'datetime': '01.01.2015'
-            }, {
-                'id': 5693,        
-                'name': 'Dota и LOL VK.Storm Fall:Rise of blue - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'active',  
-                'datetime': '01.5.2015'
-            }, {
-                'id': 5695,        
-                'name': 'mmorg вся Россия - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'active',  
-                'datetime': '15.11.2015'
-            }, {
-                'id': 5697,        
-                'name': 'США, Канада, Великобретания mmorg вся Россия - Игры вся Россия и Украина. Storm b tot rffdsdf',
-                'status': 'active',  
-                'datetime': '1.12.2015'
-            }
-        ];
-        */
-        //callback(_data);
     };
 
     var _get_stats = function(params, callback) {
@@ -90,13 +45,13 @@
         }
 
 
-        $http.get(url).success(function(data, status) {
+        $http.get(url).success(function(data) {
              for (var i = 0; i < data.length; i++) {
                 data[i].income = parseFloat(data[i].revenue) - parseFloat(data[i].costs);
             }
 
             callback(data);
-                }).error(function(data, status) {
+                }).error(function(data) {
                $log.error("Ошиба получения campaigns", data);
                alert("Ошиба получения списка компаний");
         });
